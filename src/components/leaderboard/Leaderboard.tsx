@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { db } from '../lib/firebase.ts';
+import { db } from '../../lib/firebase.ts';
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import './leaderboard/Leaderboard.css';
+import './Leaderboard.css';
 
 function Leaderboard() {
     interface Cat {

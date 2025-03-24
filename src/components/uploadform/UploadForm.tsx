@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { db } from "../lib/firebase";
+import { db } from "../../lib/firebase.ts";
 import { addDoc, collection } from "firebase/firestore";
-import "./uploadform/Uploadform.css";
+import "./Uploadform.css";
 
 const UploadForm = () => {
     const [imageUrl, setImageUrl] = useState("");

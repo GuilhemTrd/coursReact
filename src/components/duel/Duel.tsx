@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { db } from "../lib/firebase";
+import { db } from "../../lib/firebase.ts";
 import { collection, getDocs, doc, updateDoc, increment } from "firebase/firestore";
-import "./duel/Duel.css";
+import "./Duel.css";
 
 interface Cat {
     id: string;

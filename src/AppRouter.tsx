@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Leaderboard from './components/Leaderboard.tsx';
-import UploadForm from './components/UploadForm.tsx';
+import Leaderboard from './components/leaderboard/Leaderboard.tsx';
+import UploadForm from './components/uploadform/UploadForm.tsx';
 import Navbar from './components/Navbar.tsx';
-import Duel from './components/Duel.tsx';
+import Duel from './components/duel/Duel.tsx';
 
 
 const AppRouter = () => {
