@@ -1,25 +1,31 @@
 import { useState } from "react";
-import { db } from "../lib/firebase";
+import { db } from "../../lib/firebase.ts";
 import { addDoc, collection } from "firebase/firestore";
+import "./Uploadform.css";
 
 const UploadForm = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [name, setName] = useState("");
     const [uploading, setUploading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleUpload = async () => {
-        setUploading(true);
-        try {
+        if (!imageUrl) return;
 
-            // Ajout des infos dans Firestore
+        setUploading(true);
+        setSuccess(false);
+
+        try {
             await addDoc(collection(db, "cats"), {
                 name: name || "Inconnu",
                 imageUrl,
-                score: 1000, // Score initial
+                score: 1000,
                 timestamp: Date.now(),
             });
 
-            alert("Photo envoyée avec succès !");
+            setSuccess(true);
+            setImageUrl("");
+            setName("");
         } catch (error) {
             console.error("Erreur d'upload :", error);
             alert("Erreur lors de l'upload !");
@@ -29,31 +35,42 @@ const UploadForm = () => {
     };
 
     return (
-        <div className="app-container">
-            {/*Ajouter un champs d'input "name"*/}
-            <label className="block mb-2">Nom du chat</label>
+        <div className="upload-container">
+            <h2 className="upload-title">🚀 Ajouter un nouveau chat</h2>
+
+            <label className="upload-label">Nom du chat</label>
             <input
                 type="text"
-                className="border p-2 w-full"
+                className="upload-input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                placeholder="Ex : Gribouille"
             />
 
-            <label className="block mb-2">URL de la photo du chat</label>
+            <label className="upload-label">URL de la photo</label>
             <input
                 type="text"
-                className="border p-2 w-full"
+                className="upload-input"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="https://..."
             />
 
+            {imageUrl && (
+                <div className="preview">
+                    <img src={imageUrl} alt="Prévisualisation" className="preview-img" />
+                </div>
+            )}
+
             <button
-                className="bg-blue-500 text-white p-2 mt-2 rounded disabled:bg-gray-400"
+                className="upload-button"
                 onClick={handleUpload}
                 disabled={!imageUrl || uploading}
             >
                 {uploading ? "Envoi en cours..." : "Uploader"}
             </button>
+
+            {success && <p className="upload-success">🎉 Chat ajouté avec succès !</p>}
         </div>
     );
 };
