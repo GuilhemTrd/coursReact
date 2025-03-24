@@ -1,0 +1,72 @@
+.duel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #ffcc00;
+    text-shadow: 1px 1px 2px black;
+}
+
+h3 {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: #ffffffcc;
+}
+
+.duel-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.cat-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    max-width: 300px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cat-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.cat-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    max-height: 400px;
+    transition: opacity 0.3s ease;
+}
+
+.cat-name {
+    margin-top: 0.8rem;
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .duel-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cat-card {
+        width: 80%;
+    }
+}

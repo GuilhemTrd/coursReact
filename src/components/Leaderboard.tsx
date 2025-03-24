@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { db } from '../lib/firebase.ts';
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import './leaderboard/Leaderboard.css';
 
 function Leaderboard() {
-
     interface Cat {
         id: string;
         name?: string;
@@ -13,7 +13,7 @@ function Leaderboard() {
 
     const [cats, setCats] = useState<Cat[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchCats = async () => {
@@ -21,27 +21,41 @@ function Leaderboard() {
                 const catRef = collection(db, "cats");
                 const catQuery = query(catRef, orderBy("score", "desc"));
                 const snapshot = await getDocs(catQuery);
-
                 const catList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Cat[];
                 setCats(catList);
             } catch (error) {
                 console.error("Erreur lors de la récupération :", error);
             } finally {
-                console.log(cats)
                 setLoading(false);
             }
         };
 
         fetchCats();
-    }, [])
+    }, []);
 
     if (loading) return <p className="text-center text-xl">Chargement...</p>;
 
-
     return (
-        <div className="app-container">
-            <h1>🏆 Classement des meilleurs chats</h1>
-            <table>
+        <div className="leaderboard-container">
+            <h1 className="leaderboard-title">🏆 Classement des meilleurs chats</h1>
+
+            <div className="top-3">
+                {cats.slice(0, 3).map((cat, index) => (
+                    <div key={cat.id} className={`podium-card place-${index + 1}`}>
+                        <span className="medal">{['🥇', '🥈', '🥉'][index]}</span>
+                        <img
+                            src={cat.imageUrl}
+                            alt={cat.name}
+                            className="podium-img clickable"
+                            onClick={() => setSelectedImage(cat.imageUrl)}
+                        />
+                        <p className="cat-name">{cat.name || "Chat Mystère"}</p>
+                        <p className="cat-score">{cat.score} pts</p>
+                    </div>
+                ))}
+            </div>
+
+            <table className="leaderboard-table">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -51,20 +65,34 @@ function Leaderboard() {
                 </tr>
                 </thead>
                 <tbody>
-                {cats.map((cat, index) => (
-                    <tr key={cat.id} className="text-center">
-                        <td className="border p-3 font-bold">{index + 1}</td>
-                        <td className="border p-3">
-                            <img src={cat.imageUrl} alt="Chat" className="cat-img" />
+                {cats.slice(3).map((cat, index) => (
+                    <tr key={cat.id}>
+                        <td>{index + 4}</td>
+                        <td>
+                            <img
+                                src={cat.imageUrl}
+                                alt={cat.name}
+                                className="table-img clickable"
+                                onClick={() => setSelectedImage(cat.imageUrl)}
+                            />
                         </td>
-                        <td className="border p-3">{cat.name || "Chat Mystère"}</td>
-                        <td className="border p-3 text-lg font-semibold">{cat.score} pts</td>
+                        <td>{cat.name || "Chat Mystère"}</td>
+                        <td>{cat.score} pts</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+
+            {selectedImage && (
+                <div className="modal-overlay" onClick={() => setSelectedImage(null)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <span className="close-button" onClick={() => setSelectedImage(null)}>✖</span>
+                        <img src={selectedImage} alt="Chat en grand" className="modal-image" />
+                    </div>
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
 export default Leaderboard;
