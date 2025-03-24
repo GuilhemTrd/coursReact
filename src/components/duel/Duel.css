@@ -59,7 +59,44 @@ h3 {
     color: #fff;
     font-weight: bold;
 }
+.cat-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    max-width: 300px;
+    cursor: pointer;
+    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease, opacity 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
 
+.cat-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.winner {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px 10px #ffcc00;
+    z-index: 10;
+    animation: pulse 0.5s ease-in-out alternate infinite;
+}
+
+.loser {
+    opacity: 0.3;
+    transform: scale(0.95);
+    filter: grayscale(100%);
+}
+
+@keyframes pulse {
+    from {
+        box-shadow: 0 0 30px 5px #ffcc00;
+    }
+    to {
+        box-shadow: 0 0 40px 12px #ffaa00;
+    }
+}
 @media (max-width: 768px) {
     .duel-cards {
         flex-direction: column;

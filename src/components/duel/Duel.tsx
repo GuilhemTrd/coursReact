@@ -11,11 +11,15 @@ interface Cat {
 
 const Duel = () => {
     const [cats, setCats] = useState<Cat[]>([]);
+    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [disabled, setDisabled] = useState(false);
 
     const fetchCats = async () => {
         const snapshot = await getDocs(collection(db, "cats"));
         const catList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Cat[];
         setCats(catList.sort(() => Math.random() - 0.5).slice(0, 2));
+        setSelectedId(null);
+        setDisabled(false);
     };
 
     useEffect(() => {
@@ -23,8 +27,17 @@ const Duel = () => {
     }, []);
 
     const handleVote = async (winnerId: string, loserId: string) => {
+        if (disabled) return;
+
+        setSelectedId(winnerId);
+        setDisabled(true);
+
         await voteForCat(winnerId, loserId);
-        await fetchCats(); // recharge deux nouveaux chats SANS recharger la page
+
+        // attendre que l’animation se termine avant de recharger
+        setTimeout(() => {
+            fetchCats();
+        }, 1000);
     };
 
     const voteForCat = async (winnerId: string, loserId: string) => {
@@ -40,16 +53,21 @@ const Duel = () => {
             <h1 className="text-center">🔥 Duel de chats 🔥</h1>
             <h3 className="text-center">Choisissez votre chat préféré !</h3>
             <div className="duel-cards">
-                {cats.map((cat, index) => (
-                    <div
-                        key={cat.id}
-                        className="cat-card"
-                        onClick={() => handleVote(cat.id, cats[1 - index].id)}
-                    >
-                        <img className="cat-img cursor-pointer" src={cat.imageUrl} alt={cat.name} />
-                        <p className="cat-name">{cat.name}</p>
-                    </div>
-                ))}
+                {cats.map((cat, index) => {
+                    const isWinner = cat.id === selectedId;
+                    const isLoser = selectedId && cat.id !== selectedId;
+
+                    return (
+                        <div
+                            key={cat.id}
+                            className={`cat-card ${isWinner ? "winner" : ""} ${isLoser ? "loser" : ""}`}
+                            onClick={() => handleVote(cat.id, cats[1 - index].id)}
+                        >
+                            <img className="cat-img" src={cat.imageUrl} alt={cat.name} />
+                            <p className="cat-name">{cat.name}</p>
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
