@@ -1,5 +1,5 @@
-import { db } from "lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from './lib/firebase.ts';
 
 export const getTopCats = async () => {
     const catRef = collection(db, "cats");

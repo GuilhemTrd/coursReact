@@ -1,21 +1,19 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBk1NRudnTJvcs7LWn5YwV-D6MdgqeRGgA",
-    authDomain: "coursreact-ec922.firebaseapp.com",
-    projectId: "coursreact-ec922",
-    storageBucket: "coursreact-ec922.firebasestorage.app",
-    messagingSenderId: "760313576474",
-    appId: "1:760313576474:web:3d134c089daa7422e565a3",
-    measurementId: "G-11LW3B08VX"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
 // Initialisation Firestore (Base de données)
 export const db = getFirestore(app);
