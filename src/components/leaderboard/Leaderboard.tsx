@@ -3,7 +3,7 @@ import { db } from '../../lib/firebase.ts';
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import './Leaderboard.css';
 
-function Leaderboard() {
+export function Leaderboard() {
     interface Cat {
         id: string;
         name?: string;
@@ -94,5 +94,3 @@ function Leaderboard() {
         </div>
     );
 }
-
-export default Leaderboard;

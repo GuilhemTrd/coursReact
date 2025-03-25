@@ -3,7 +3,7 @@ import { db } from "../../lib/firebase.ts";
 import { addDoc, collection } from "firebase/firestore";
 import "./Uploadform.css";
 
-const UploadForm = () => {
+export const UploadForm = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [name, setName] = useState("");
     const [uploading, setUploading] = useState(false);
@@ -74,5 +74,3 @@ const UploadForm = () => {
         </div>
     );
 };
-
-export default UploadForm;

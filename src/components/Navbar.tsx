@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+export const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="justify-between items-center">
@@ -11,5 +11,3 @@ const Navbar = () => {
         </nav>
     );
 };
-
-export default Navbar;

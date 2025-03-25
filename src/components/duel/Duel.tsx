@@ -9,7 +9,7 @@ interface Cat {
     name: string;
 }
 
-const Duel = () => {
+export const Duel = () => {
     const [cats, setCats] = useState<Cat[]>([]);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [disabled, setDisabled] = useState(false);
@@ -72,5 +72,3 @@ const Duel = () => {
         </div>
     );
 };
-
-export default Duel;
